@@ -1,15 +1,16 @@
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, View, Switch } from 'react-native'
+import { StyleSheet, View, Switch, SafeAreaView } from 'react-native'
 import { ThemeContext } from 'context/ThemeContext'
 import { useState } from 'react'
 import { Colors } from 'styles/Colors'
+import Keyboard from 'components/Keyboard'
 
 export default function App() {
   const [theme, setTheme] = useState('light')
 
   return (
     <ThemeContext.Provider value={theme}>
-      <View
+      <SafeAreaView
         style={
           theme === 'light' ? styles.container : [styles.container, { backgroundColor: '#000000' }]
         }>
@@ -18,7 +19,8 @@ export default function App() {
           value={theme === 'light'}
           onValueChange={() => setTheme(theme === 'light' ? 'dark' : 'light')}
         />
-      </View>
+        <Keyboard />
+      </SafeAreaView>
     </ThemeContext.Provider>
   )
 }
@@ -28,6 +30,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.light,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'flex-start'
   }
 })
