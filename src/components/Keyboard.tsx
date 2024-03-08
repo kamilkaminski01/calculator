@@ -22,6 +22,15 @@ export default function Keyboard() {
     setFirstNumber('')
   }
 
+  const handleSquareRoot = () => {
+    setOperation('sqrt')
+    clear()
+    const squareRootResult = Math.sqrt(parseInt(firstNumber)).toString()
+    const fifthDecimalIndex = squareRootResult.indexOf('.') + 5
+    const truncatedResult = squareRootResult.slice(0, fifthDecimalIndex)
+    setResult(parseFloat(truncatedResult))
+  }
+
   const clear = () => {
     setFirstNumber('')
     setSecondNumber('')
@@ -102,7 +111,7 @@ export default function Keyboard() {
       </View>
       <View style={Styles.row}>
         <Button title="C" isGray onPress={clear} />
-        <Button title="+/-" isGray onPress={() => handleOperationPress('+/-')} />
+        <Button title="√" isGray onPress={() => handleSquareRoot()} />
         <Button title="%" isGray onPress={() => handleOperationPress('%')} />
         <Button title="÷" isBlue onPress={() => handleOperationPress('/')} />
       </View>
