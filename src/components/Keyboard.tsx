@@ -9,6 +9,7 @@ export default function Keyboard() {
   const [secondNumber, setSecondNumber] = useState('')
   const [operation, setOperation] = useState('')
   const [result, setResult] = useState<number | null>(null)
+  const [showAdvancedOperations, setShowAdvancedOperations] = useState(false)
 
   const handleNumberPress = (buttonValue: string) => {
     if (firstNumber.length < 10) {
@@ -23,11 +24,32 @@ export default function Keyboard() {
   }
 
   const handleSquareRoot = () => {
-    setOperation('sqrt')
     clear()
     const squareRootResult = Math.sqrt(parseInt(firstNumber)).toString()
     const fifthDecimalIndex = squareRootResult.indexOf('.') + 5
     const truncatedResult = squareRootResult.slice(0, fifthDecimalIndex)
+    setResult(parseFloat(truncatedResult))
+  }
+
+  const handleCubeRoot = () => {
+    clear()
+    const squareRootResult = Math.cbrt(parseInt(firstNumber)).toString()
+    const fifthDecimalIndex = squareRootResult.indexOf('.') + 5
+    const truncatedResult = squareRootResult.slice(0, fifthDecimalIndex)
+    setResult(parseFloat(truncatedResult))
+  }
+
+  const handlePowerOf = (powerOf: number) => {
+    clear()
+    const result = Math.pow(parseInt(firstNumber), powerOf)
+    setResult(result)
+  }
+
+  const handleLog = () => {
+    clear()
+    const result = Math.log(parseInt(firstNumber)).toString()
+    const fifthDecimalIndex = result.indexOf('.') + 5
+    const truncatedResult = result.slice(0, fifthDecimalIndex)
     setResult(parseFloat(truncatedResult))
   }
 
@@ -110,28 +132,52 @@ export default function Keyboard() {
         {displayFirstNumber()}
       </View>
       <View style={Styles.row}>
+        <Button
+          title="A"
+          isGray
+          onPress={() => setShowAdvancedOperations(!showAdvancedOperations)}
+        />
         <Button title="C" isGray onPress={clear} />
-        <Button title="√" isGray onPress={() => handleSquareRoot()} />
-        <Button title="%" isGray onPress={() => handleOperationPress('%')} />
-        <Button title="÷" isBlue onPress={() => handleOperationPress('/')} />
+        {showAdvancedOperations ? (
+          <Button title="x²" isBlue onPress={() => handlePowerOf(2)} />
+        ) : (
+          <Button title="√" isBlue onPress={handleSquareRoot} />
+        )}
+        {showAdvancedOperations ? (
+          <Button title="x³" isBlue onPress={() => handlePowerOf(3)} />
+        ) : (
+          <Button title="÷" isBlue onPress={() => handleOperationPress('/')} />
+        )}
       </View>
       <View style={Styles.row}>
         <Button title="7" onPress={() => handleNumberPress('7')} />
         <Button title="8" onPress={() => handleNumberPress('8')} />
         <Button title="9" onPress={() => handleNumberPress('9')} />
-        <Button title="x" isBlue onPress={() => handleOperationPress('*')} />
+        {showAdvancedOperations ? (
+          <Button title="%" isBlue onPress={() => handleOperationPress('%')} />
+        ) : (
+          <Button title="x" isBlue onPress={() => handleOperationPress('*')} />
+        )}
       </View>
       <View style={Styles.row}>
         <Button title="4" onPress={() => handleNumberPress('4')} />
         <Button title="5" onPress={() => handleNumberPress('5')} />
         <Button title="6" onPress={() => handleNumberPress('6')} />
-        <Button title="-" isBlue onPress={() => handleOperationPress('-')} />
+        {showAdvancedOperations ? (
+          <Button title="∛" isBlue onPress={handleCubeRoot} />
+        ) : (
+          <Button title="-" isBlue onPress={() => handleOperationPress('-')} />
+        )}
       </View>
       <View style={Styles.row}>
         <Button title="1" onPress={() => handleNumberPress('1')} />
         <Button title="2" onPress={() => handleNumberPress('2')} />
         <Button title="3" onPress={() => handleNumberPress('3')} />
-        <Button title="+" isBlue onPress={() => handleOperationPress('+')} />
+        {showAdvancedOperations ? (
+          <Button title="log" isBlue onPress={handleLog} />
+        ) : (
+          <Button title="+" isBlue onPress={() => handleOperationPress('+')} />
+        )}
       </View>
       <View style={Styles.row}>
         <Button title="." onPress={() => handleNumberPress('.')} />
