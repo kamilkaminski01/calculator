@@ -1,6 +1,6 @@
 <h1 align="center">Calculator</h1>
 
-<div style="display: flex; align-items: center; justify-content: center">
+<div align="center" style="display: flex; align-items: center; justify-content: center">
 <img src="assets/demo1.png" width="300px" />
 <img src="assets/demo2.png" width="300px" />
 </div>
